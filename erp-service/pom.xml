@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.greeta.order</groupId>
-        <artifactId>order-parent</artifactId>
+        <groupId>net.greeta.book</groupId>
+        <artifactId>book-parent</artifactId>
         <version>1.1</version>
     </parent>
     <artifactId>erp-service</artifactId>

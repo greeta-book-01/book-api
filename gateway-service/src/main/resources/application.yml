@@ -24,12 +24,12 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: order
+        - id: book
           uri: http://localhost:9081
           predicates:
-            - Path=/order/**
+            - Path=/book/**
           filters:
-            - RewritePath=/order/(?<path>.*), /$\{path}
+            - RewritePath=/book/(?<path>.*), /$\{path}
         - id: erp
           uri: http://localhost:9082
           predicates:
@@ -42,18 +42,18 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${spring.keycloak.server-url}/realms/order-realm
+          issuer-uri: ${spring.keycloak.server-url}/realms/book-realm
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
 jwt:
   auth:
     converter:
-      resource-id: order-app
+      resource-id: book-app
       principal-attribute: preferred_username
 
-order-app:
+book-app:
   base-url: http://localhost:3000
-  redirect-url: ${order-app.base-url}/*
+  redirect-url: ${book-app.base-url}/*
 
 server:
   forward-headers-strategy: framework
@@ -96,14 +96,14 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
-    groups-order: DESC
+    #groups-order: DESC
     path: /
     config-url: /v3/api-docs/swagger-config
     urls:
       # - url: /v3/api-docs
       #   name: API Gateway Service
       #   primaryName: API Gateway Service
-      - url: /order/v3/api-docs
-        name: Order Service
+      - url: /book/v3/api-docs
+        name: Book Service
       - url: /erp/v3/api-docs
         name: ERP Service

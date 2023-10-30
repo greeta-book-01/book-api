@@ -9,8 +9,8 @@
         <relativePath />
     </parent>
 
-    <groupId>net.greeta.order</groupId>
-    <artifactId>order-parent</artifactId>
+    <groupId>net.greeta.book</groupId>
+    <artifactId>book-parent</artifactId>
     <version>1.1</version>
     <packaging>pom</packaging>
 
@@ -27,8 +27,7 @@
     </properties>
 
     <modules>
-        <module>order-domain</module>
-        <module>order-service</module>
+        <module>book-service</module>
         <module>erp-service</module>
         <module>gateway-service</module>
     </modules>
