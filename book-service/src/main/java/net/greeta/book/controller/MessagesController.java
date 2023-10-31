@@ -3,9 +3,13 @@ package net.greeta.book.controller;
 import net.greeta.book.entity.Message;
 import net.greeta.book.requestmodels.AdminQuestionRequest;
 import net.greeta.book.service.MessagesService;
-import net.greeta.book.utils.ExtractJWT;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/messages")
@@ -19,20 +23,14 @@ public class MessagesController {
     }
 
     @PostMapping("/secure/add/message")
-    public void postMessage(@RequestHeader(value="Authorization") String token,
-                            @RequestBody Message messageRequest) {
-        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+    public void postMessage(@RequestBody Message messageRequest, JwtAuthenticationToken token) {
+        String userEmail = token.getToken().getClaimAsString("email");
         messagesService.postMessage(messageRequest, userEmail);
     }
 
     @PutMapping("/secure/admin/message")
-    public void putMessage(@RequestHeader(value="Authorization") String token,
-                           @RequestBody AdminQuestionRequest adminQuestionRequest) throws Exception {
-        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
-        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
-        if (admin == null || !admin.equals("admin")) {
-            throw new Exception("Administration page only.");
-        }
+    public void putMessage(@RequestBody AdminQuestionRequest adminQuestionRequest, JwtAuthenticationToken token) throws Exception {
+        String userEmail = token.getToken().getClaimAsString("email");
         messagesService.putMessage(adminQuestionRequest, userEmail);
     }
 

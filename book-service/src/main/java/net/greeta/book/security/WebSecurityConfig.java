@@ -21,11 +21,15 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
 
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
+
+                        .requestMatchers(
+                                "/admin/secure/**",
+                                "/messages/secure/admin/message").hasRole(BOOK_MANAGER)
+
                         .requestMatchers(
                                 "/secure/**",
                                 "/reviews/secure/**",
-                                "/messages/secure/**",
-                                "/admin/secure/**").hasAnyRole(BOOK_MANAGER, BOOK_USER)
+                                "/messages/secure/**").hasAnyRole(BOOK_MANAGER, BOOK_USER)
 
                         .requestMatchers(
                                 "/**",
